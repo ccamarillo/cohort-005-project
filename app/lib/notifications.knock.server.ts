@@ -285,11 +285,14 @@ function spellOutChannels(setting: KnockCategorySetting | undefined) {
 }
 
 /** Inline identify: Knock upserts the user from these properties. */
-function toKnockUser(person: NotificationPerson) {
+/**
+ * The person as Knock sees them. Never their email address: every channel is
+ * the in-app feed, and Knock keeps what it's sent in the US indefinitely.
+ */
+export function toKnockUser(person: NotificationPerson) {
   return {
     id: String(person.id),
     name: person.name,
-    email: person.email,
     ...(person.avatarUrl ? { avatar: person.avatarUrl } : {}),
   };
 }
