@@ -887,7 +887,7 @@ async function notifyDecision(
         kind: "refund-approved",
         recipient,
         actor,
-        data: { ...data, decisionNote: refundRequest.decisionNote },
+        data,
       },
       `refund-approved:${refundRequestId}`
     );
@@ -898,7 +898,7 @@ async function notifyDecision(
         kind: "refund-declined",
         recipient,
         actor,
-        data: { ...data, decisionNote: refundRequest.decisionNote ?? "" },
+        data,
       },
       `refund-declined:${refundRequestId}`
     );

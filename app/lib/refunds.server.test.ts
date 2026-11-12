@@ -595,7 +595,6 @@ describe("the Refund Request Notifications", () => {
           courseTitle: "Test Course",
           purchaseKind: "individual_purchase",
           amount: "$79.00",
-          decisionNote: "Sorry it didn't work out.",
           url: "/settings",
         },
       },
@@ -630,7 +629,6 @@ describe("the Refund Request Notifications", () => {
           courseTitle: "Test Course",
           purchaseKind: "team_licence",
           amount: "$158.00",
-          decisionNote: "Seats are in use.",
           url: "/team",
         },
       },
@@ -638,7 +636,7 @@ describe("the Refund Request Notifications", () => {
     expect(sentOf("refund-approved")).toEqual([]);
   });
 
-  it("tells a Team Admin their Team Licence refund was approved, with no note", async () => {
+  it("tells a Team Admin their Team Licence refund was approved", async () => {
     const priya = addStudent("Priya");
     const { purchase } = buySeats(priya.id, 2);
     const id = await raise(purchase.id, priya.id);
@@ -649,9 +647,12 @@ describe("the Refund Request Notifications", () => {
       {
         idempotencyKey: `refund-approved:${id}`,
         recipient: { id: priya.id },
-        data: { purchaseKind: "team_licence", decisionNote: null, url: "/team" },
+        data: { purchaseKind: "team_licence", url: "/team" },
       },
     ]);
+    expect(sentOf("refund-approved")[0]?.data).not.toHaveProperty(
+      "decisionNote"
+    );
   });
 
   it("still raises and decides Refund Requests, with their emails, when Knock is down", async () => {

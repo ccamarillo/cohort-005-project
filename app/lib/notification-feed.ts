@@ -58,7 +58,6 @@ export const notificationDataSchemas = {
     courseTitle: z.string(),
     purchaseKind: z.enum(["individual_purchase", "team_licence"]),
     amount: z.string(),
-    decisionNote: z.string().nullable(),
     url: z.string(),
   }),
   "refund-declined": z.object({
@@ -66,7 +65,6 @@ export const notificationDataSchemas = {
     courseTitle: z.string(),
     purchaseKind: z.enum(["individual_purchase", "team_licence"]),
     amount: z.string(),
-    decisionNote: z.string(),
     url: z.string(),
   }),
 };

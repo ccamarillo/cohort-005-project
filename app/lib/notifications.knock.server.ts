@@ -105,6 +105,11 @@ const PREFERENCE_SET = "default";
 
 const USER_TOKEN_LIFETIME_SECONDS = 60 * 60;
 
+// Notifications are sent from inside requests that have already done their
+// work (deciding a Refund Request, posting a comment), so give up quickly
+// instead of the SDK's default of 60 seconds with two retries.
+const KNOCK_TIMEOUT_MS = 3000;
+
 export type KnockConfig = {
   secretKey: string;
   publicKey: string;
@@ -113,7 +118,11 @@ export type KnockConfig = {
 };
 
 export function knockNotifications(config: KnockConfig): Notifications {
-  const knock = new Knock({ apiKey: config.secretKey });
+  const knock = new Knock({
+    apiKey: config.secretKey,
+    timeout: KNOCK_TIMEOUT_MS,
+    maxRetries: 0,
+  });
 
   /** The user's raw Knock set, or null when Knock has never seen them. */
   async function getKnockPreferenceSet(

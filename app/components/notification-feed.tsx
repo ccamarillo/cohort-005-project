@@ -405,20 +405,14 @@ function describeNotification(notification: FeedNotification): {
     case "refund-approved":
       return {
         title: `Your Refund Request for ${notification.data.courseTitle} was approved`,
-        body: [
-          `${notification.data.amount} for your ${purchaseLabel(notification.data.purchaseKind)} is on its way back.`,
-          notification.data.decisionNote &&
-            `“${notification.data.decisionNote}”`,
-        ]
-          .filter(Boolean)
-          .join(" "),
+        body: `${notification.data.amount} for your ${purchaseLabel(notification.data.purchaseKind)} is on its way back.`,
         icon: <Receipt />,
         url: notification.data.url,
       };
     case "refund-declined":
       return {
         title: `Your Refund Request for ${notification.data.courseTitle} was declined`,
-        body: `“${notification.data.decisionNote}” You keep your ${purchaseLabel(notification.data.purchaseKind)}, and you can raise a new Refund Request.`,
+        body: `You keep your ${purchaseLabel(notification.data.purchaseKind)}, and you can raise a new Refund Request.`,
         icon: <Receipt />,
         url: notification.data.url,
       };
