@@ -105,6 +105,11 @@ const PREFERENCE_SET = "default";
 
 const USER_TOKEN_LIFETIME_SECONDS = 60 * 60;
 
+// Notifications are sent from inside requests that have already done their
+// work (deciding a Refund Request, posting a comment), so give up quickly
+// instead of the SDK's default of 60 seconds with two retries.
+const KNOCK_TIMEOUT_MS = 3000;
+
 export type KnockConfig = {
   secretKey: string;
   publicKey: string;
@@ -113,7 +118,11 @@ export type KnockConfig = {
 };
 
 export function knockNotifications(config: KnockConfig): Notifications {
-  const knock = new Knock({ apiKey: config.secretKey });
+  const knock = new Knock({
+    apiKey: config.secretKey,
+    timeout: KNOCK_TIMEOUT_MS,
+    maxRetries: 0,
+  });
 
   /** The user's raw Knock set, or null when Knock has never seen them. */
   async function getKnockPreferenceSet(
@@ -276,11 +285,14 @@ function spellOutChannels(setting: KnockCategorySetting | undefined) {
 }
 
 /** Inline identify: Knock upserts the user from these properties. */
-function toKnockUser(person: NotificationPerson) {
+/**
+ * The person as Knock sees them. Never their email address: every channel is
+ * the in-app feed, and Knock keeps what it's sent in the US indefinitely.
+ */
+export function toKnockUser(person: NotificationPerson) {
   return {
     id: String(person.id),
     name: person.name,
-    email: person.email,
     ...(person.avatarUrl ? { avatar: person.avatarUrl } : {}),
   };
 }

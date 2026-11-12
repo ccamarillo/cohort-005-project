@@ -213,7 +213,7 @@ PROBE_USER="wizard-probe"
 trigger() {
   curl -s -o /dev/null -w '%{http_code}' -X POST \
     -H "Authorization: Bearer $SK" -H "Content-Type: application/json" \
-    -d "{\"recipients\":[{\"id\":\"$2\",\"name\":\"Wizard Check\"}],\"actor\":{\"id\":\"wizard-actor\",\"name\":\"Wizard\"},\"data\":{\"commentId\":0,\"questionId\":0,\"lessonId\":0,\"lessonTitle\":\"Wizard lesson\",\"snippet\":\"Wizard snippet\",\"seatId\":0,\"courseId\":0,\"courseTitle\":\"Wizard course\",\"seatsLeft\":0,\"enrollmentId\":0,\"refundRequestId\":0,\"buyerName\":\"Wizard buyer\",\"amount\":\"0.00\",\"reason\":\"Wizard reason\",\"purchaseKind\":\"individual_purchase\",\"decisionNote\":\"Wizard note\",\"url\":\"/\"}}" \
+    -d "{\"recipients\":[{\"id\":\"$2\",\"name\":\"Wizard Check\"}],\"actor\":{\"id\":\"wizard-actor\",\"name\":\"Wizard\"},\"data\":{\"commentId\":0,\"questionId\":0,\"lessonId\":0,\"lessonTitle\":\"Wizard lesson\",\"snippet\":\"Wizard snippet\",\"seatId\":0,\"courseId\":0,\"courseTitle\":\"Wizard course\",\"seatsLeft\":0,\"enrollmentId\":0,\"refundRequestId\":0,\"buyerName\":\"Wizard buyer\",\"amount\":\"0.00\",\"reason\":\"Wizard reason\",\"purchaseKind\":\"individual_purchase\",\"url\":\"/\"}}" \
     "$KNOCK_API/workflows/$1/trigger"
 }
 

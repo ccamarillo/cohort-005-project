@@ -2,7 +2,27 @@ import { describe, it, expect } from "vitest";
 import {
   fromKnockPreferenceSet,
   mergeIntoKnockPreferenceSet,
+  toKnockUser,
 } from "./notifications.knock.server";
+
+describe("the person Knock is told about", () => {
+  it("is their id, name and avatar, never their email address", () => {
+    expect(
+      toKnockUser({
+        id: 7,
+        name: "Priya",
+        email: "priya@example.com",
+        avatarUrl: "/avatars/priya.png",
+      })
+    ).toEqual({ id: "7", name: "Priya", avatar: "/avatars/priya.png" });
+  });
+
+  it("has no avatar when the person has none", () => {
+    expect(
+      toKnockUser({ id: 7, name: "Priya", email: "priya@example.com", avatarUrl: null })
+    ).toEqual({ id: "7", name: "Priya" });
+  });
+});
 
 describe("reading a Knock preference set", () => {
   it("has none when Knock holds no set", () => {

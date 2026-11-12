@@ -9,6 +9,16 @@ import { z } from "zod";
  * The trigger data for each kind of Notification. Kept flat: Knock's compact
  * feed drops nested values. `url` is where clicking the row goes.
  */
+// Approved and declined carry the same data; the kind says which it was.
+// Never the Platform Admin's note: the page `url` links to shows it.
+const refundDecisionData = z.object({
+  refundRequestId: z.number(),
+  courseTitle: z.string(),
+  purchaseKind: z.enum(["individual_purchase", "team_licence"]),
+  amount: z.string(),
+  url: z.string(),
+});
+
 export const notificationDataSchemas = {
   "discussion-reply": z.object({
     commentId: z.number(),
@@ -53,22 +63,8 @@ export const notificationDataSchemas = {
     reason: z.string(),
     url: z.string(),
   }),
-  "refund-approved": z.object({
-    refundRequestId: z.number(),
-    courseTitle: z.string(),
-    purchaseKind: z.enum(["individual_purchase", "team_licence"]),
-    amount: z.string(),
-    decisionNote: z.string().nullable(),
-    url: z.string(),
-  }),
-  "refund-declined": z.object({
-    refundRequestId: z.number(),
-    courseTitle: z.string(),
-    purchaseKind: z.enum(["individual_purchase", "team_licence"]),
-    amount: z.string(),
-    decisionNote: z.string(),
-    url: z.string(),
-  }),
+  "refund-approved": refundDecisionData,
+  "refund-declined": refundDecisionData,
 };
 
 export type NotificationKind = keyof typeof notificationDataSchemas;

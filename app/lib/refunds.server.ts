@@ -880,27 +880,13 @@ async function notifyDecision(
   const recipient = toNotificationPerson(buyer);
   const actor = decider ? toNotificationPerson(decider) : undefined;
 
-  if (refundRequest.status === RefundStatus.Approved) {
-    await sendSafely(
-      notifications,
-      {
-        kind: "refund-approved",
-        recipient,
-        actor,
-        data: { ...data, decisionNote: refundRequest.decisionNote },
-      },
-      `refund-approved:${refundRequestId}`
-    );
-  } else {
-    await sendSafely(
-      notifications,
-      {
-        kind: "refund-declined",
-        recipient,
-        actor,
-        data: { ...data, decisionNote: refundRequest.decisionNote ?? "" },
-      },
-      `refund-declined:${refundRequestId}`
-    );
-  }
+  const kind =
+    refundRequest.status === RefundStatus.Approved
+      ? "refund-approved"
+      : "refund-declined";
+  await sendSafely(
+    notifications,
+    { kind, recipient, actor, data },
+    `${kind}:${refundRequestId}`
+  );
 }
