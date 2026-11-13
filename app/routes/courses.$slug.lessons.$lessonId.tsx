@@ -48,9 +48,17 @@ import { AlertTriangle } from "lucide-react";
 import { renderMarkdown } from "~/lib/markdown.server";
 import { data, isRouteErrorResponse } from "react-router";
 import { z } from "zod";
-import { parseFormData } from "~/lib/validation";
+import { parseFormData, parseParams } from "~/lib/validation";
 import { LockedLesson } from "~/components/lesson/locked-lesson";
 import { FullLesson } from "~/components/lesson/full-lesson";
+
+const lessonParamsSchema = z.object({
+  lessonId: z.coerce.number().int().positive(),
+});
+
+const submitQuizSchema = z.object({
+  quizId: z.coerce.number().int().positive(),
+});
 
 const createCommentSchema = z.object({
   intent: z.literal("create-comment"),
@@ -122,7 +130,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
   const { course, person, enrolled, view, take, manage } = decisions;
   const currentUserId = person?.id ?? null;
-  const lessonId = Number(params.lessonId);
+  const { lessonId } = parseParams(params, lessonParamsSchema);
 
   const courseWithDetails = getCourseWithDetails(course.id);
   const lesson = getLessonById(lessonId);
@@ -317,7 +325,7 @@ export async function action({ params, request }: Route.ActionArgs) {
     ref
   );
   const currentUserId = person.id;
-  const lessonId = Number(params.lessonId);
+  const { lessonId } = parseParams(params, lessonParamsSchema);
 
   if (
     intent === "create-comment" ||
@@ -429,10 +437,11 @@ export async function action({ params, request }: Route.ActionArgs) {
   }
 
   if (intent === "submit-quiz") {
-    const quizId = Number(formData.get("quizId"));
-    if (isNaN(quizId)) {
+    const parsed = parseFormData(formData, submitQuizSchema);
+    if (!parsed.success) {
       throw data("Invalid quiz ID", { status: 400 });
     }
+    const { quizId } = parsed.data;
     const quiz = getQuizForLesson(quizId, lessonId);
     if (!quiz) {
       throw data("Quiz not found", { status: 404 });
