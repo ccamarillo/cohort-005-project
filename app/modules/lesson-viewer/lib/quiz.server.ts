@@ -33,18 +33,16 @@ export function getQuizWithQuestions(quizId: number) {
     .orderBy(quizQuestions.position)
     .all();
 
-  const options = questions.length
-    ? db
-        .select()
-        .from(quizOptions)
-        .where(
-          inArray(
-            quizOptions.questionId,
-            questions.map((question) => question.id)
-          )
-        )
-        .all()
-    : [];
+  const options = db
+    .select()
+    .from(quizOptions)
+    .where(
+      inArray(
+        quizOptions.questionId,
+        questions.map((question) => question.id)
+      )
+    )
+    .all();
 
   const questionsWithOptions = questions.map((question) => ({
     ...question,
