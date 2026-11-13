@@ -209,7 +209,7 @@ export function FullLesson({
           )}
 
           {/* Note — beside the discussion, where the Student reflects on the lesson */}
-          {currentUserId && <LessonNote note={note} />}
+          {currentUserId && <LessonNote key={lesson.id} note={note} />}
 
           {/* Questions & Discussion — confidential to people with access */}
           <CommentThread
