@@ -8,26 +8,24 @@ function render(element: ReactElement) {
   return renderToStaticMarkup(<MemoryRouter>{element}</MemoryRouter>);
 }
 
-const centering = /\b(text-center|justify-center|mx-auto)\b/;
-
-function withoutExpectedCentring(classes: string) {
-  if (classes.includes("max-w-6xl")) return classes.replace("mx-auto", "");
-  if (classes.includes("size-12")) return classes.replace("justify-center", "");
-  return classes;
+function classListsWith(html: string, utility: string) {
+  return [...html.matchAll(/\bclass="([^"]*)"/g)]
+    .map(([, classes]) => classes)
+    .filter((classes) => classes.split(/\s+/).includes(utility));
 }
 
-function centredLayoutElements(html: string) {
-  return [...html.matchAll(/<(section|footer|div|h1|p)\b[^>]*class="([^"]*)"/g)]
-    .map(([, , classes]) => withoutExpectedCentring(classes))
-    .filter((classes) => centering.test(classes));
-}
+const pageColumn = expect.stringContaining("max-w-6xl");
+const statIconBox = expect.stringContaining("size-12");
+const buttonLabel = expect.stringContaining("inline-flex");
 
 describe("home landing sections", () => {
   it("left-aligns the hero headline, subtitle and call to action", () => {
     const html = render(<HomeHero />);
     expect(html).toContain("Learn to code,");
     expect(html).toContain('href="/courses"');
-    expect(centredLayoutElements(html)).toEqual([]);
+    expect(classListsWith(html, "text-center")).toEqual([]);
+    expect(classListsWith(html, "justify-center")).toEqual([buttonLabel]);
+    expect(classListsWith(html, "mx-auto")).toEqual([pageColumn]);
   });
 
   it("left-aligns the stats strip and shows its figures", () => {
@@ -36,12 +34,19 @@ describe("home landing sections", () => {
     expect(html).toContain(">5<");
     expect(html).toContain("Available Courses");
     expect(html).toContain("Self-paced");
-    expect(centredLayoutElements(html)).toEqual([]);
+    expect(classListsWith(html, "text-center")).toEqual([]);
+    expect(classListsWith(html, "justify-center")).toEqual([
+      statIconBox,
+      statIconBox,
+      statIconBox,
+    ]);
+    expect(classListsWith(html, "mx-auto")).toEqual([pageColumn]);
   });
 
   it("left-aligns the footer", () => {
     const html = render(<HomeFooter />);
     expect(html).toContain("Cadence");
-    expect(centredLayoutElements(html)).toEqual([]);
+    expect(classListsWith(html, "text-center")).toEqual([]);
+    expect(classListsWith(html, "mx-auto")).toEqual([pageColumn]);
   });
 });
