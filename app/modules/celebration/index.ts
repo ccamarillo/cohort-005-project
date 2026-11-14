@@ -15,10 +15,9 @@ export type { ConfettiBurst, ConfettiPiece } from "./lib/confetti";
 /**
  * Confetti on the welcome page, for a Student who has just enrolled.
  *
- * The enrolling action redirects to `welcomeUrl(slug)`.
- * The welcome page asks `shouldCelebrate` whether to throw confetti, and
- * once it has, replaces the URL with `withoutCelebration` so a refresh or a
- * later visit stays calm.
+ * The enrolling action redirects to `welcomeUrl(slug)`. The welcome page
+ * asks `shouldCelebrate` whether to throw confetti, then replaces the URL
+ * with `withoutCelebration`. Why: docs/adr/0014.
  */
 export const celebration = {
   /** The welcome page's path, marked to celebrate. */

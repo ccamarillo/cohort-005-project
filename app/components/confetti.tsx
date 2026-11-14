@@ -24,8 +24,8 @@ function pieceStyle(piece: ConfettiPiece): CSSProperties {
 
 /**
  * Throws one burst of confetti over the page when `fire` turns true, and
- * clears it once the last piece has landed. Under `prefers-reduced-motion`
- * it throws nothing.
+ * clears it once the last piece has landed. Honours
+ * `prefers-reduced-motion`: see docs/adr/0014.
  */
 export function Confetti({ fire }: { fire: boolean }) {
   const [burst, setBurst] = useState<ConfettiBurst | null>(null);
