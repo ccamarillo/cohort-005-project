@@ -10,20 +10,8 @@ function sequence(...values: number[]) {
 }
 
 describe("welcomeUrl", () => {
-  it("is the plain welcome page by default", () => {
-    expect(celebration.welcomeUrl("typescript")).toBe(
-      "/courses/typescript/welcome"
-    );
-  });
-
-  it("is the plain welcome page when not celebrating", () => {
-    expect(celebration.welcomeUrl("typescript", { celebrate: false })).toBe(
-      "/courses/typescript/welcome"
-    );
-  });
-
   it("marks the welcome page to celebrate", () => {
-    expect(celebration.welcomeUrl("typescript", { celebrate: true })).toBe(
+    expect(celebration.welcomeUrl("typescript")).toBe(
       "/courses/typescript/welcome?celebrate=1"
     );
   });
@@ -31,13 +19,13 @@ describe("welcomeUrl", () => {
 
 describe("shouldCelebrate", () => {
   it("celebrates on the URL welcomeUrl marks", () => {
-    const path = celebration.welcomeUrl("typescript", { celebrate: true });
+    const path = celebration.welcomeUrl("typescript");
     expect(celebration.shouldCelebrate(`${BASE}${path}`)).toBe(true);
   });
 
   it("stays calm on a plain visit", () => {
-    const path = celebration.welcomeUrl("typescript");
-    expect(celebration.shouldCelebrate(`${BASE}${path}`)).toBe(false);
+    const url = `${BASE}/courses/typescript/welcome`;
+    expect(celebration.shouldCelebrate(url)).toBe(false);
   });
 
   it("accepts a URL object", () => {

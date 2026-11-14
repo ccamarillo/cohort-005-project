@@ -126,7 +126,7 @@ export async function action({ params, request }: Route.ActionArgs) {
     throw redirect("/courses");
   }
 
-  throw redirect(celebration.welcomeUrl(course.slug, { celebrate: true }));
+  throw redirect(celebration.welcomeUrl(course.slug));
 }
 
 export default function Redeem({

@@ -330,7 +330,7 @@ export async function action({ params, request }: Route.ActionArgs) {
     if (!enrolled.ok) {
       throw data(enrolled.error, { status: 409 });
     }
-    throw redirect(celebration.welcomeUrl(slug, { celebrate: true }));
+    throw redirect(celebration.welcomeUrl(slug));
   }
 
   // Team purchase — user does NOT get enrolled themselves

@@ -12,15 +12,15 @@ export { CONFETTI_COLORS } from "./lib/confetti";
 /**
  * Confetti on the welcome page, for a Student who has just enrolled.
  *
- * The enrolling action redirects to `welcomeUrl(slug, { celebrate: true })`.
+ * The enrolling action redirects to `welcomeUrl(slug)`.
  * The welcome page asks `shouldCelebrate` whether to throw confetti, and
  * once it has, replaces the URL with `withoutCelebration` so a refresh or a
  * later visit stays calm.
  */
 export const celebration = {
-  /** The welcome page's path, marked to celebrate when `celebrate` is set. */
-  welcomeUrl(slug: string, { celebrate = false } = {}) {
-    return welcomePath(slug, celebrate);
+  /** The welcome page's path, marked to celebrate. */
+  welcomeUrl(slug: string) {
+    return welcomePath(slug);
   },
 
   /** Whether this request to the welcome page should throw confetti. */
