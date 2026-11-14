@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { celebration, CONFETTI_COLORS } from "../index";
+import { celebration } from "../index";
 
 const BASE = "http://localhost:5173";
 
@@ -128,7 +128,7 @@ describe("confetti", () => {
       durationMs: 2200,
       spinDeg: -720,
       driftPercent: -15,
-      color: CONFETTI_COLORS[0],
+      color: "#f43f5e",
     });
   });
 
@@ -141,7 +141,7 @@ describe("confetti", () => {
       durationMs: 2900,
       spinDeg: 0,
       driftPercent: 0,
-      color: CONFETTI_COLORS[3],
+      color: "#3b82f6",
     });
   });
 
@@ -153,7 +153,7 @@ describe("confetti", () => {
     expect(piece.durationMs).toBeLessThan(3600);
     expect(piece.spinDeg).toBeLessThan(720);
     expect(piece.driftPercent).toBeLessThan(15);
-    expect(piece.color).toBe(CONFETTI_COLORS[CONFETTI_COLORS.length - 1]);
+    expect(piece.color).toBe("#ec4899");
   });
 
   it("draws each property from its own random value", () => {
@@ -168,7 +168,7 @@ describe("confetti", () => {
       durationMs: 2200 + 0.3 * 1400,
       spinDeg: expect.closeTo(-0.2 * 720, 6),
       driftPercent: expect.closeTo(0.2 * 15, 6),
-      color: CONFETTI_COLORS[4],
+      color: "#8b5cf6",
     });
   });
 

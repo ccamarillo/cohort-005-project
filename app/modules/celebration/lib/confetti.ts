@@ -8,7 +8,7 @@ export type ConfettiPiece = {
   color: string;
 };
 
-export const CONFETTI_COLORS = [
+const CONFETTI_COLORS = [
   "#f43f5e",
   "#f59e0b",
   "#10b981",

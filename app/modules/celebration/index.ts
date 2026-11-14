@@ -7,7 +7,6 @@ import {
 import { longestFallMs, makeConfetti } from "./lib/confetti";
 
 export type { ConfettiPiece } from "./lib/confetti";
-export { CONFETTI_COLORS } from "./lib/confetti";
 
 /**
  * Confetti on the welcome page, for a Student who has just enrolled.
