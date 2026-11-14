@@ -16,7 +16,7 @@ function pieceStyle(piece: ConfettiPiece): CSSProperties {
     animationDelay: `${piece.delayMs}ms`,
     animationDuration: `${piece.durationMs}ms`,
     ["--confetti-spin" as string]: `${piece.spinDeg}deg`,
-    ["--confetti-drift" as string]: `${piece.driftPercent}vw`,
+    ["--confetti-drift" as string]: `${piece.driftVw}vw`,
   };
 }
 

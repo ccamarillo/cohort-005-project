@@ -127,7 +127,7 @@ describe("confetti", () => {
       delayMs: 0,
       durationMs: 2200,
       spinDeg: -720,
-      driftPercent: -15,
+      driftVw: -15,
       color: "#f43f5e",
     });
   });
@@ -140,7 +140,7 @@ describe("confetti", () => {
       delayMs: 400,
       durationMs: 2900,
       spinDeg: 0,
-      driftPercent: 0,
+      driftVw: 0,
       color: "#3b82f6",
     });
   });
@@ -152,7 +152,7 @@ describe("confetti", () => {
     expect(piece.delayMs).toBeLessThan(800);
     expect(piece.durationMs).toBeLessThan(3600);
     expect(piece.spinDeg).toBeLessThan(720);
-    expect(piece.driftPercent).toBeLessThan(15);
+    expect(piece.driftVw).toBeLessThan(15);
     expect(piece.color).toBe("#ec4899");
   });
 
@@ -167,7 +167,7 @@ describe("confetti", () => {
       delayMs: 160,
       durationMs: 2200 + 0.3 * 1400,
       spinDeg: expect.closeTo(-0.2 * 720, 6),
-      driftPercent: expect.closeTo(0.2 * 15, 6),
+      driftVw: expect.closeTo(0.2 * 15, 6),
       color: "#8b5cf6",
     });
   });

@@ -4,7 +4,7 @@ export type ConfettiPiece = {
   delayMs: number;
   durationMs: number;
   spinDeg: number;
-  driftPercent: number;
+  driftVw: number;
   color: string;
 };
 
@@ -21,7 +21,7 @@ const MAX_DELAY_MS = 800;
 const MIN_DURATION_MS = 2200;
 const DURATION_SPREAD_MS = 1400;
 const MAX_SPIN_DEG = 720;
-const MAX_DRIFT_PERCENT = 15;
+const MAX_DRIFT_VW = 15;
 
 /** Spreads `random()` (in [0, 1)) across `[-max, max)`. */
 function signed(random: () => number, max: number) {
@@ -38,7 +38,7 @@ export function makeConfetti(
     delayMs: random() * MAX_DELAY_MS,
     durationMs: MIN_DURATION_MS + random() * DURATION_SPREAD_MS,
     spinDeg: signed(random, MAX_SPIN_DEG),
-    driftPercent: signed(random, MAX_DRIFT_PERCENT),
+    driftVw: signed(random, MAX_DRIFT_VW),
     color: CONFETTI_COLORS[Math.floor(random() * CONFETTI_COLORS.length)],
   }));
 }
