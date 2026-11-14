@@ -171,9 +171,3 @@
   animation-timing-function: cubic-bezier(0.3, 0.6, 0.6, 1);
   animation-fill-mode: forwards;
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .confetti-piece {
-    display: none;
-  }
-}
