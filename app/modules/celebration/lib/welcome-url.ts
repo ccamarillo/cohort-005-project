@@ -23,3 +23,10 @@ export function stripCelebration(url: URL) {
   next.searchParams.delete(CELEBRATE_PARAM);
   return `${next.pathname}${next.search}${next.hash}`;
 }
+
+export function isDroppingMark(from: URL, to: URL) {
+  return (
+    isCelebrating(from) &&
+    stripCelebration(from) === `${to.pathname}${to.search}${to.hash}`
+  );
+}

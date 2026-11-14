@@ -1,5 +1,6 @@
 import {
   isCelebrating,
+  isDroppingMark,
   stripCelebration,
   welcomePath,
 } from "./lib/welcome-url";
@@ -30,6 +31,14 @@ export const celebration = {
   /** The same location, path-relative, with the celebration mark removed. */
   withoutCelebration(url: string | URL) {
     return stripCelebration(new URL(url));
+  },
+
+  /**
+   * Whether moving from `from` to `to` only drops the celebration mark, so
+   * the welcome page need not load again.
+   */
+  onlyDropsMark(from: string | URL, to: string | URL) {
+    return isDroppingMark(new URL(from), new URL(to));
   },
 
   /**

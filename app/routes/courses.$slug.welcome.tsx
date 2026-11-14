@@ -1,5 +1,10 @@
 import { useEffect } from "react";
-import { Link, redirect, useNavigate } from "react-router";
+import {
+  Link,
+  redirect,
+  useNavigate,
+  type ShouldRevalidateFunctionArgs,
+} from "react-router";
 import type { Route } from "./+types/courses.$slug.welcome";
 import { db } from "~/db";
 import { courses, categories, users, modules, lessons } from "~/db/schema";
@@ -106,6 +111,15 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     discordInviteUrl,
     celebrate: celebration.shouldCelebrate(request.url),
   };
+}
+
+export function shouldRevalidate({
+  currentUrl,
+  nextUrl,
+  defaultShouldRevalidate,
+}: ShouldRevalidateFunctionArgs) {
+  if (celebration.onlyDropsMark(currentUrl, nextUrl)) return false;
+  return defaultShouldRevalidate;
 }
 
 export default function Welcome({ loaderData }: Route.ComponentProps) {

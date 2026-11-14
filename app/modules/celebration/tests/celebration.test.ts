@@ -87,6 +87,37 @@ describe("withoutCelebration", () => {
   });
 });
 
+describe("onlyDropsMark", () => {
+  const marked = `${BASE}/courses/typescript/welcome?ref=email&celebrate=1#top`;
+
+  it("is true when the next URL is the marked one without its mark", () => {
+    const next = `${BASE}${celebration.withoutCelebration(marked)}`;
+    expect(celebration.onlyDropsMark(marked, next)).toBe(true);
+  });
+
+  it("accepts URL objects", () => {
+    const next = new URL(`${BASE}/courses/typescript/welcome?ref=email#top`);
+    expect(celebration.onlyDropsMark(new URL(marked), next)).toBe(true);
+  });
+
+  it("is false when the current URL carries no mark", () => {
+    const plain = `${BASE}/courses/typescript/welcome`;
+    expect(celebration.onlyDropsMark(plain, plain)).toBe(false);
+  });
+
+  it("is false when the next URL goes somewhere else", () => {
+    const next = `${BASE}/courses/typescript/welcome?ref=email`;
+    expect(celebration.onlyDropsMark(marked, next)).toBe(false);
+    expect(
+      celebration.onlyDropsMark(marked, `${BASE}/courses/typescript`)
+    ).toBe(false);
+  });
+
+  it("is false when the next URL keeps the mark", () => {
+    expect(celebration.onlyDropsMark(marked, marked)).toBe(false);
+  });
+});
+
 describe("confetti", () => {
   it("makes as many pieces as asked, each with its own id", () => {
     const { pieces } = celebration.confetti(5, Math.random);
