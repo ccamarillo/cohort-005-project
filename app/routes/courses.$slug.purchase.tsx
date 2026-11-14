@@ -40,6 +40,7 @@ import { calculatePppPrice, getCountryTierInfo, COUNTRIES } from "~/lib/ppp";
 import { parseFormData, parseParams } from "~/lib/validation";
 import { enrollStudent, isEnrolled } from "~/lib/enrollments.server";
 import { defaultNotifications } from "~/lib/notifications.server";
+import { celebration } from "~/modules/celebration";
 
 function getCourseBySlug(slug: string) {
   return db.select().from(courses).where(eq(courses.slug, slug)).get();
@@ -329,7 +330,7 @@ export async function action({ params, request }: Route.ActionArgs) {
     if (!enrolled.ok) {
       throw data(enrolled.error, { status: 409 });
     }
-    throw redirect(`/courses/${slug}/welcome`);
+    throw redirect(celebration.welcomeUrl(slug));
   }
 
   // Team purchase — user does NOT get enrolled themselves
