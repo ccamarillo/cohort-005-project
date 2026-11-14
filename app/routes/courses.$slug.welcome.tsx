@@ -1,4 +1,5 @@
-import { Link, redirect } from "react-router";
+import { useEffect } from "react";
+import { Link, redirect, useNavigate } from "react-router";
 import type { Route } from "./+types/courses.$slug.welcome";
 import { db } from "~/db";
 import { courses, categories, users, modules, lessons } from "~/db/schema";
@@ -8,6 +9,8 @@ import { Button } from "~/components/ui/button";
 import { Card, CardContent } from "~/components/ui/card";
 import { PartyPopper, MessageCircle, PlayCircle } from "lucide-react";
 import { data } from "react-router";
+import { celebration } from "~/modules/celebration";
+import { Confetti } from "~/components/confetti";
 
 function getCourseWithDetails(id: number) {
   const course = db
@@ -101,11 +104,21 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   return {
     course: courseWithDetails,
     discordInviteUrl,
+    celebrate: celebration.shouldCelebrate(request.url),
   };
 }
 
 export default function Welcome({ loaderData }: Route.ComponentProps) {
-  const { course, discordInviteUrl } = loaderData;
+  const { course, discordInviteUrl, celebrate } = loaderData;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!celebrate) return;
+    navigate(celebration.withoutCelebration(window.location.href), {
+      replace: true,
+      preventScrollReset: true,
+    });
+  }, [celebrate, navigate]);
 
   const firstLessonId =
     course.modules.length > 0 && course.modules[0].lessons.length > 0
@@ -114,6 +127,7 @@ export default function Welcome({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="mx-auto max-w-2xl p-6 lg:p-8">
+      <Confetti fire={celebrate} />
       <Card>
         <CardContent className="p-8 text-center">
           <div className="mb-4 inline-flex size-16 items-center justify-center rounded-full bg-primary/10">

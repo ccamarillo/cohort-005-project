@@ -22,6 +22,7 @@ import { data } from "react-router";
 import { db } from "~/db";
 import { coupons, courses } from "~/db/schema";
 import { eq } from "drizzle-orm";
+import { celebration } from "~/modules/celebration";
 
 function getCourseById(id: number) {
   return db.select().from(courses).where(eq(courses.id, id)).get();
@@ -125,7 +126,7 @@ export async function action({ params, request }: Route.ActionArgs) {
     throw redirect("/courses");
   }
 
-  throw redirect(`/courses/${course.slug}/welcome`);
+  throw redirect(celebration.welcomeUrl(course.slug, { celebrate: true }));
 }
 
 export default function Redeem({
