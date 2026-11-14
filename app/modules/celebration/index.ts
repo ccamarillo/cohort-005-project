@@ -4,9 +4,13 @@ import {
   stripCelebration,
   welcomePath,
 } from "./lib/welcome-url";
-import { longestFallMs, makeConfetti } from "./lib/confetti";
+import {
+  longestFallMs,
+  makeConfetti,
+  type ConfettiBurst,
+} from "./lib/confetti";
 
-export type { ConfettiPiece } from "./lib/confetti";
+export type { ConfettiBurst, ConfettiPiece } from "./lib/confetti";
 
 /**
  * Confetti on the welcome page, for a Student who has just enrolled.
@@ -44,7 +48,7 @@ export const celebration = {
    * `count` pieces of confetti, laid out with `random` (values in [0, 1)),
    * and how long the last one takes to land.
    */
-  confetti(count: number, random: () => number) {
+  confetti(count: number, random: () => number): ConfettiBurst {
     const pieces = makeConfetti(count, random);
     return { pieces, totalMs: longestFallMs(pieces) };
   },

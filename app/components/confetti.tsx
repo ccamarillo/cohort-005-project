@@ -1,9 +1,11 @@
 import { useEffect, useState, type CSSProperties } from "react";
-import { celebration, type ConfettiPiece } from "~/modules/celebration";
+import {
+  celebration,
+  type ConfettiBurst,
+  type ConfettiPiece,
+} from "~/modules/celebration";
 
 const PIECE_COUNT = 120;
-
-type Burst = ReturnType<typeof celebration.confetti>;
 
 function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -26,7 +28,7 @@ function pieceStyle(piece: ConfettiPiece): CSSProperties {
  * it throws nothing.
  */
 export function Confetti({ fire }: { fire: boolean }) {
-  const [burst, setBurst] = useState<Burst | null>(null);
+  const [burst, setBurst] = useState<ConfettiBurst | null>(null);
 
   useEffect(() => {
     if (!fire || prefersReducedMotion()) return;

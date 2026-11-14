@@ -46,3 +46,8 @@ export function makeConfetti(
 export function longestFallMs(pieces: ConfettiPiece[]) {
   return Math.max(0, ...pieces.map((p) => p.delayMs + p.durationMs));
 }
+
+export type ConfettiBurst = {
+  pieces: ConfettiPiece[];
+  totalMs: number;
+};
